@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "lib": [
+        "dom",
+        "esnext"
+      ],
+      "outDir": ".localbuild",
+      "moduleResolution": "nodenext",
+      "skipLibCheck": true,
+      "resolveJsonModule": true,
+      "sourceMap": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "target": "esnext",
+      "module": "NodeNext",
+    },
+    "include": [
+      "**/*.ts",
+    ],
+    "exclude": [
+      "node_modules/**/*",
+    ]
+  }
