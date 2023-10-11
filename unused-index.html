@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Call with Textarea</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Send Textarea Content to API</h1>
+
+<textarea id="contentTextarea" rows="4" cols="50"></textarea>
+<button onclick="sendToAPI()">Send to API</button>
+
+<table id="resultTable" style="margin-top:20px;">
+    <!-- Table will be populated here -->
+</table>
+
+<script>
+    function sendToAPI() {
+        const content = document.getElementById('contentTextarea').value;
+
+        // Extract apikey from the query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const apikey = urlParams.get('apikey');
+
+        fetch('YOUR_API_ENDPOINT_URL_HERE', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apikey
+            },
+            body: JSON.stringify({ content: content })  // Send content in desired format, adjust if needed
+        })
+        .then(response => response.json())
+        .then(data => {
+            displayResults(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function displayResults(data) {
+        const table = document.getElementById('resultTable');
+
+        // Clear table first
+        table.innerHTML = "";
+
+        // Add headers
+        let headerRow = table.insertRow(0);
+        let headerCell1 = headerRow.insertCell(0);
+        let headerCell2 = headerRow.insertCell(1);
+        headerCell1.innerHTML = "<strong>Word</strong>";
+        headerCell2.innerHTML = "<strong>Replacement</strong>";
+
+        // Add content
+        data.forEach(item => {
+            let row = table.insertRow();
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            cell1.innerHTML = item.word;
+            cell2.innerHTML = item.replacement;
+        });
+    }
+</script>
+
+</body>
+</html>
